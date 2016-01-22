@@ -1,0 +1,7 @@
+indigoeln-dev-mongodb:
+  container_name: indigoeln-dev-mongodb
+  image: mongo:3.0.7
+  # volumes:
+  #   - ~/volumes/jhipster/indigoeln/dev-mongodb/:/data/db/
+  ports:
+    - "27017:27017"

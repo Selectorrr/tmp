@@ -1,0 +1,24 @@
+{
+  "generator-jhipster": {
+    "baseName": "indigoeln",
+    "packageName": "com.epam.indigoeln",
+    "packageFolder": "com/epam/indigoeln",
+    "authenticationType": "session",
+    "hibernateCache": "no",
+    "clusteredHttpSession": "no",
+    "websocket": "spring-websocket",
+    "databaseType": "mongodb",
+    "devDatabaseType": "mongodb",
+    "prodDatabaseType": "mongodb",
+    "searchEngine": "no",
+    "useSass": true,
+    "buildTool": "maven",
+    "frontendBuilder": "grunt",
+    "enableTranslation": false,
+    "enableSocialSignIn": false,
+    "rememberMeKey": "56fd8dee907483e44fc953a5b9c96fb470581fbc",
+    "testFrameworks": [
+      "gatling"
+    ]
+  }
+}
