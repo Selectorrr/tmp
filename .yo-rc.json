@@ -6,7 +6,7 @@
     "authenticationType": "session",
     "hibernateCache": "no",
     "clusteredHttpSession": "no",
-    "websocket": "spring-websocket",
+    "websocket": "no",
     "databaseType": "mongodb",
     "devDatabaseType": "mongodb",
     "prodDatabaseType": "mongodb",

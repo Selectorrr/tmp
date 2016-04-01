@@ -1,4 +1,4 @@
-// Generated on 2016-01-11 using generator-jhipster 2.26.2
+// Generated on 2016-04-01 using generator-jhipster 2.26.2
 'use strict';
 var fs = require('fs');
 
@@ -49,6 +49,10 @@ module.exports = function (grunt) {
             ngconstant: {
                 files: ['Gruntfile.js', 'pom.xml'],
                 tasks: ['ngconstant:dev']
+            },
+            sass: {
+                files: ['src/main/scss/**/*.{scss,sass}'],
+                tasks: ['sass:server']
             }
         },
         autoprefixer: {
@@ -56,10 +60,12 @@ module.exports = function (grunt) {
         },
         wiredep: {
             app: {
-                src: ['src/main/webapp/index.html'],
+                src: ['src/main/webapp/index.html', 'src/main/scss/main.scss'],
                 exclude: [
-                    /angular-i18n/  // localizations are loaded dynamically
-                ]
+                    /angular-i18n/, // localizations are loaded dynamically
+                    'bower_components/bootstrap/' // Exclude Bootstrap LESS as we use bootstrap-sass
+                ],
+                ignorePath: /\.\.\/webapp\/bower_components\// // remove ../webapp/bower_components/ from paths of injected sass files 
             },
             test: {
                 src: 'src/test/javascript/karma.conf.js',
@@ -120,6 +126,22 @@ module.exports = function (grunt) {
                 'src/main/webapp/scripts/app/**/*.js',
                 'src/main/webapp/scripts/components/**/*.js'
             ]
+        },
+        sass: {
+            options: {
+                includePaths: [
+                    'src/main/webapp/bower_components'
+                ]
+            },
+            server: {
+                files: [{
+                    expand: true,
+                    cwd: 'src/main/scss',
+                    src: ['*.scss'],
+                    dest: 'src/main/webapp/assets/styles',
+                    ext: '.css'
+                }]
+            }
         },
         concat: {
             // src and dest is configured in a subtask called "generated" by usemin
@@ -331,6 +353,7 @@ module.exports = function (grunt) {
         'clean:server',
         'wiredep',
         'ngconstant:dev',
+        'sass:server',
         'browserSync',
         'watch'
     ]);
@@ -344,6 +367,7 @@ module.exports = function (grunt) {
         'clean:server',
         'wiredep:test',
         'ngconstant:dev',
+        'sass:server',
         'karma'
     ]);
 
@@ -353,6 +377,7 @@ module.exports = function (grunt) {
         'ngconstant:prod',
         'useminPrepare',
         'ngtemplates',
+        'sass:server',
         'imagemin',
         'svgmin',
         'concat',
