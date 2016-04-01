@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('indigoelnApp')
-    .factory('Principal', function Principal($q, Account) {
+    .factory('Principal', function Principal($q, Account, Tracker) {
         var _identity,
             _authenticated = false;
 
@@ -17,9 +17,9 @@ angular.module('indigoelnApp')
                     return $q.when(false);
                 }
 
-                return this.identity().then(function(_id) {
+                return this.identity().then(function (_id) {
                     return _id.authorities && _id.authorities.indexOf(authority) !== -1;
-                }, function(err){
+                }, function (err) {
                     return false;
                 });
             },
@@ -61,8 +61,9 @@ angular.module('indigoelnApp')
                         _identity = account.data;
                         _authenticated = true;
                         deferred.resolve(_identity);
+                        Tracker.connect();
                     })
-                    .catch(function() {
+                    .catch(function () {
                         _identity = null;
                         _authenticated = false;
                         deferred.resolve(_identity);

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('indigoelnApp')
-    .factory('Auth', function Auth($rootScope, $state, $q, Principal, AuthServerProvider, Account, Register, Activate, Password, PasswordResetInit, PasswordResetFinish) {
+    .factory('Auth', function Auth($rootScope, $state, $q, Principal, AuthServerProvider, Account, Register, Activate, Password, PasswordResetInit, PasswordResetFinish, Tracker) {
         return {
             login: function (credentials, callback) {
                 var cb = callback || angular.noop;
@@ -9,7 +9,8 @@ angular.module('indigoelnApp')
 
                 AuthServerProvider.login(credentials).then(function (data) {
                     // retrieve the logged account information
-                    Principal.identity(true).then(function(account) {
+                    Principal.identity(true).then(function (account) {
+                        Tracker.sendActivity();
                         deferred.resolve(data);
                     });
                     return cb();
@@ -30,9 +31,9 @@ angular.module('indigoelnApp')
                 $rootScope.previousStateNameParams = undefined;
             },
 
-            authorize: function(force) {
+            authorize: function (force) {
                 return Principal.identity(force)
-                    .then(function() {
+                    .then(function () {
                         var isAuthenticated = Principal.isAuthenticated();
 
                         // an authenticated user can't access to login and register pages
@@ -107,14 +108,14 @@ angular.module('indigoelnApp')
             resetPasswordInit: function (mail, callback) {
                 var cb = callback || angular.noop;
 
-                return PasswordResetInit.save(mail, function() {
+                return PasswordResetInit.save(mail, function () {
                     return cb();
                 }, function (err) {
                     return cb(err);
                 }).$promise;
             },
 
-            resetPasswordFinish: function(keyAndPassword, callback) {
+            resetPasswordFinish: function (keyAndPassword, callback) {
                 var cb = callback || angular.noop;
 
                 return PasswordResetFinish.save(keyAndPassword, function () {
